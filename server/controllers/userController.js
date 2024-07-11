@@ -13,7 +13,7 @@ const authUser = async (req, res) => {
         const {_id, name, email} = user
         res.status(201).json({_id, name, email})
     } else {
-        res.status(400)
+        res.status(401)
         throw new Error ("Invalid credentials")
     }
 }
