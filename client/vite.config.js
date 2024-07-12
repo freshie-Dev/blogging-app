@@ -10,7 +10,7 @@ export default ({ mode }) => {
       proxy: {
         '/api': {
           target: process.env.VITE_BACKEND_URL,
-          // changeOrigin: true,
+          changeOrigin: true,
         },
       },
     },
