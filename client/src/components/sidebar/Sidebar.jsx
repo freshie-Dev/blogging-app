@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -19,6 +19,11 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import UserMenu from "../user-menu/UserMenu"
+
 
 const drawerWidth = 240;
 
@@ -87,56 +92,29 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer({pages}) {
+export default function MiniDrawer({ pages }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate()
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   const handleDrawer = () => {
     setOpen(!open)
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box component="main" sx={{ display: 'flex' }}>
       <CssBaseline />
-      {/* <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawer}>
-            {open  ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {[{text: "Home", icon: <InboxIcon/>, goto: ()=> navigate('/')}, {text: "About", icon: <MailIcon/>, goto: ()=> navigate('/about')}].map((text, index) => (
-          // {['Home', 'About'].map((text, index) => (
+          {[{ text: "Home", icon: <InboxIcon />, goto: () => navigate('/') }, { text: "About", icon: <MailIcon />, goto: () => navigate('/about') }].map((text, index) => (
+            // {['Home', 'About'].map((text, index) => (
             <ListItem onClick={text.goto} key={text.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -160,13 +138,22 @@ export default function MiniDrawer({pages}) {
           ))}
         </List>
         <Divider />
-        
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, paddingY: 0}}>
-        <h1>hello</h1>
-        {/* <DrawerHeader/> */}
-        {pages}
+
+
+      <Box component="div" sx={{ display: "flex", gap: "1rem", flexDirection: "column", flexGrow: 1, p: 3, paddingY: 0 }}>
+        <Box sx={{ display: 'flex', justifyContent: "space-between", alignItems: "center", py: "10px", borderBottom: "1px solid #E0E0E0" }}>
+          <img src="/logo/blog-logo-black.svg" width={80} alt="logo" />
+          <UserMenu />
+        </Box>
+  
+        <Box component="div" sx={{ flexGrow: 1, p: 3, paddingY: 0 }}>
+          {/* <DrawerHeader/> */}
+          {pages}
+        </Box>
       </Box>
+
+
     </Box>
   );
 }

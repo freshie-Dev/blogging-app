@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from "./store/store.js"
 import HomePage from './pages/HomePage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
   { path: '/about', errorElement: <ErrorPage />, element: (
       <ProtectedRoutes>
         <AboutPage />
+      </ProtectedRoutes>
+    )},
+  { path: '/profile', errorElement: <ErrorPage />, element: (
+      <ProtectedRoutes>
+        <ProfilePage />
       </ProtectedRoutes>
     )},
   { path: '/login',  element: <LoginPage />},

@@ -73,13 +73,23 @@ const getUserProfile = async (req, res) => {
 //! access  PRIVATE
 const updateUserProfile = async (req, res) => {
     const user = await User.findById({_id: req.user._id})
+    console.log(req.body)
 
     if (user) {
         user.name = req.body.name || user.name
-
-        if(req.body.password) {
-            user.password = req.body.password
+        user.email = req.body.email || user.email
+        console.log("password frm db",user.password)
+        if (!(await user.matchPassword(req.body.password))) {
+            res.status(401)
+            throw new Error ("Your current password is incorrect")
         }
+        // if(req.body.password && req.body.newPassword) {
+        //     if (user.matchPassword(req.body.password)) {
+        //         user.password = req.body.newPassword
+        //     } else {
+        //         throw new Error ("Your current password is incorrect")
+        //     }
+        // } 
         const updatedUser = await user.save();
         const updatedUserObj = updatedUser.toObject();
         delete updatedUserObj.password

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router';
+import { Divider } from '@mui/material';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { userInfo, loading, error } = useSelector(state => state.auth); // Accessing the auth state
+  const { loading, error } = useSelector(state => state.auth); // Accessing the auth state
 
 
   const handleSubmit = async (e) => {
@@ -52,9 +53,9 @@ const LoginPage = () => {
         <button type="submit" style={{ padding: '10px', backgroundColor: 'blue', color: 'white', border: 'none', cursor: 'pointer' }}>
           {loading ? "Loading..." : "Login"}
         </button>
-        <div>
-          <Alert variant='outlined' severity="error">{error}</Alert>
-        </div>
+        {error && <Alert variant='outlined' severity="error">{error}</Alert> }
+          
+       
       </form>
     </div>
   );
