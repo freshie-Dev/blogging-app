@@ -14,15 +14,23 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    blogs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Blog'
+    }],
+    drafts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Draft'
+    }]
 },
-{
-    Timestamps: true
-})
+    {
+        Timestamps: true
+    })
 
 //& Pre-save middleware to hash password
 userSchema.pre('save', async function (next) {
-    if(!this.isModified('password')) {
+    if (!this.isModified('password')) {
         next();
     }
 
@@ -30,6 +38,7 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt)
 })
 
+// *custom methods
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
 }

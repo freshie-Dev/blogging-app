@@ -18,11 +18,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("im running")
+    console.log("login handle submit running")
     const result = await dispatch(loginUser({ email, password }))
-    console.log(result.payload)
+    console.log(result.payload) // includes{ _id, name, email}
     if(result.payload) navigate('/')
   };
+
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: "darkcyan" }}>
@@ -54,7 +55,7 @@ const LoginPage = () => {
           {loading ? "Loading..." : "Login"}
         </button>
         {error && <Alert variant='outlined' severity="error">{error}</Alert> }
-          
+        
        
       </form>
     </div>

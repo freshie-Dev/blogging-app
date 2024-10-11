@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
         res.status(409)
         throw new Error ("User already exists")
     }
-
+    console.log("hello")
     const user = await User.create({
         name,
         email,

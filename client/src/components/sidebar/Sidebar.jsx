@@ -19,10 +19,13 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router';
-
+import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
+import { MdEditDocument } from "react-icons/md";
+import { PiNotebookFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
-
 import UserMenu from "../user-menu/UserMenu"
+import { GiOpenPalm } from 'react-icons/gi';
 
 
 const drawerWidth = 240;
@@ -42,7 +45,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(0)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -92,7 +95,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer({ pages }) {
+export default function Sidebar({ pages }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -101,7 +104,28 @@ export default function MiniDrawer({ pages }) {
   const handleDrawer = () => {
     setOpen(!open)
   }
-
+  const icons = [
+    {
+      text: "Home",
+      icon: <HomeSharpIcon />,
+      goto: () => navigate('/')
+    },
+    {
+      text: "Create Blog",
+      icon: <EditNoteSharpIcon />,
+      goto: () => navigate('/blog')
+    },
+    {
+      text: "Drafts",
+      icon: <MdEditDocument size={20} />,
+      goto: () => navigate('/drafts')
+    },
+    {
+      text: "Your Blogs",
+      icon: <PiNotebookFill size={20} />,
+      goto: () => navigate('/your_blogs')
+    }
+  ]
   return (
     <Box component="main" sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -113,7 +137,7 @@ export default function MiniDrawer({ pages }) {
         </DrawerHeader>
         <Divider />
         <List>
-          {[{ text: "Home", icon: <InboxIcon />, goto: () => navigate('/') }, { text: "About", icon: <MailIcon />, goto: () => navigate('/about') }].map((text, index) => (
+          {icons.map((text, index) => (
             // {['Home', 'About'].map((text, index) => (
             <ListItem onClick={text.goto} key={text.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -141,16 +165,29 @@ export default function MiniDrawer({ pages }) {
       </Drawer>
 
 
-      <Box component="div" sx={{ display: "flex", gap: "1rem", flexDirection: "column", flexGrow: 1, p: 3, paddingY: 0 }}>
+      <Box component="div" sx={{
+        display: "flex",
+        gap: "1rem",
+        flexDirection: "column",
+        flexGrow: 1,
+        p: 3,
+        paddingY: 0,
+        [theme.breakpoints.down('sm')]: { padding: "5px" },
+      }}>
+
         <Box sx={{ display: 'flex', justifyContent: "space-between", alignItems: "center", py: "10px", borderBottom: "1px solid #E0E0E0" }}>
+          {!open && <span className='customBP:hidden'> <IconButton onClick={handleDrawer}>
+            <ChevronRightIcon />
+          </IconButton></span>}
           <img src="/logo/blog-logo-black.svg" width={80} alt="logo" />
           <UserMenu />
         </Box>
-  
-        <Box component="div" sx={{ flexGrow: 1, p: 3, paddingY: 0 }}>
-          {/* <DrawerHeader/> */}
-          {pages}
-        </Box>
+
+        <div className='flex-grow-1 p-0 '>
+          <div className='flex justify-center items-center flex-col'>
+            {pages}
+          </div>
+        </div>
       </Box>
 
 

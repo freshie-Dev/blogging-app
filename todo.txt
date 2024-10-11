@@ -1,0 +1,12 @@
+clear editor after posting blog                         ✓
+fetch blogs and drafts                                  ✓
+on clicking drafts, we should be able to edit them.     ✓
+handle unautorized errors on frontend.
+
+?????????????????????
+while saving the blog, also provide the link for the title image in the backend.
+
+todos:
+confirmation message for successful post of blog
+title max legnth 80
+max tags limit

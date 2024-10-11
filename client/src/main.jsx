@@ -11,32 +11,69 @@ import RegisterPage from './pages/RegisterPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 import ProtectedRoutes from './protected-routes/ProtectedRoutes.jsx'
+import AuthRedirect from './protected-routes/AuthRedirect.jsx'
 
 import { AuthContextProvider } from './contexts/authContext.jsx'
+import Blog from './components/blog/Blog.jsx'
+import Drafts from './components/drafts/Drafts.jsx'
+import BlogsPage from './pages/BlogsPage.jsx'
+import './index.css'
 
 const router = createBrowserRouter([
-  { path: '/',  errorElement: <ErrorPage />,
+  {
+    path: '/', errorElement: <ErrorPage />,
     element: (
       <ProtectedRoutes>
         <HomePage />
       </ProtectedRoutes>
-    )},
-  { path: '/about', errorElement: <ErrorPage />, element: (
+    )
+  },
+  {
+    path: '/about', errorElement: <ErrorPage />, element: (
       <ProtectedRoutes>
         <AboutPage />
       </ProtectedRoutes>
-    )},
-  { path: '/profile', errorElement: <ErrorPage />, element: (
+    )
+  },
+  {
+    path: '/profile', errorElement: <ErrorPage />, element: (
       <ProtectedRoutes>
         <ProfilePage />
       </ProtectedRoutes>
-    )},
-  { path: '/login',  element: <LoginPage />},
-  { path: '/register', element: <RegisterPage />},
+    )
+  },
+  {
+    path: '/blog', errorElement: <Blog />, element: (
+      <ProtectedRoutes>
+        <Blog />
+      </ProtectedRoutes>
+    )
+  },
+  {
+    path: '/your_blogs', errorElement: <BlogsPage />, element: (
+      <ProtectedRoutes>
+        <BlogsPage />
+      </ProtectedRoutes>
+    )
+  },
+  {
+    path: '/drafts', errorElement: <Drafts />, element: (
+      <ProtectedRoutes>
+        <Drafts />
+      </ProtectedRoutes>
+    )
+  },
+  {
+    path: '/login', element: (
+      <AuthRedirect>
+        <LoginPage />
+      </AuthRedirect>)
+  },
+  { path: '/register', element: <RegisterPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </Provider>,
 )
